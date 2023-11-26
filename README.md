@@ -108,3 +108,7 @@ You may update the following properties to adjust the look of the redactions.
 | `--vari-bio-leading` | The vertical space between the redaction marks. |
 | `--vari-bio-space` | The horizontal space of the redaction marks. |
 | `--vari-bio-duration` | The transition duration between redactions. |
+
+## Inspiration
+
+I've seen a few examples of personal websites (most recently from [Jason Lengstorf](https://jason.energy/)) where their bio is a variable length. I like this idea for when folks might ask me for a little blurb about myself but not know how much they might want. This becomes a self-service component to provide just the right amount of content for a person's needs. I thought it would be interesting to animate between the different size bios. Perhaps this is less challenging with [View Transitions](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API)?
