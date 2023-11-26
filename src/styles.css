@@ -12,17 +12,17 @@
   grid-area: 1 / 1 / -1 / -1;
   align-content: start;
   align-items: center;
-  column-gap: var(--space, .55ch);
-  row-gap: var(--leading, .14ex);
-  transition: var(--duration, 0) ease;
+  column-gap: var(--vari-bio-space, .55ch);
+  row-gap: var(--vari-bio-leading, .14ex);
+  transition: var(--vari-bio-duration, 0) ease;
 }
 
 #display span {
   box-sizing: border-box;
-  background: var(--background);
-  height: var(--height, 3ex);
-  border-radius: var(--radius);
-  transition: var(--duration, 0) ease;
+  background: var(--vari-bio-background);
+  height: var(--vari-bio-height, 3ex);
+  border-radius: var(--vari-bio-radius);
+  transition: var(--vari-bio-duration, 0) ease;
 }
 
 :host([debug]) #display {

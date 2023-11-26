@@ -14,7 +14,6 @@ class VariBio extends HTMLElement {
     this._$bios.addEventListener('slotchange', () => {
       this.ready = false;
       const $elements = this._$bios.assignedElements();
-      this.max = $elements.length - 1;
       const finalWidths = $elements.sort((a, b) => a.textContent.length - b.textContent.length).map(this._measure, this);
       this._widths = this._configure(finalWidths);
       this._redactions = this._markings(this._widths);
@@ -122,14 +121,14 @@ class VariBio extends HTMLElement {
     if (!Array.isArray(this._redactions)) return;
     this._reset();
 
-    this.style.setProperty('--progress', progress.toFixed(3));
+    this.style.setProperty('--vari-bio-progress', progress.toFixed(3));
 
     this._redactions.forEach(($span, i) => {
       const { start = 0, end = 0 } = this._widths[i][index];
-      $span.style.setProperty('width', `calc(${start}px - ((${start}px - ${end}px) * var(--progress, 0)))`);
+      $span.style.setProperty('width', `calc(${start}px - ((${start}px - ${end}px) * var(--vari-bio-progress, 0)))`);
       $span.style.removeProperty('margin-inline-start');
-      if (!start) $span.style.setProperty('margin-inline-start', `calc((var(--space, .55ch) * -1) * (1 - var(--progress, 0)))`);
-      if (!end) $span.style.setProperty('margin-inline-start', `calc((var(--space, .55ch) * -1))`);
+      if (!start) $span.style.setProperty('margin-inline-start', `calc((var(--vari-bio-space, .55ch) * -1) * (1 - var(--vari-bio-progress, 0)))`);
+      if (!end) $span.style.setProperty('margin-inline-start', `calc((var(--vari-bio-space, .55ch) * -1))`);
     });
   }
 
@@ -146,15 +145,7 @@ class VariBio extends HTMLElement {
   }
 
   get max() {
-    return parseFloat(this.getAttribute('max'), 10) || 0;
-  }
-
-  set max(newVal) {
-    if (!isNaN(newVal)) {
-      this.setAttribute('max', newVal);
-    } else {
-      this.removeAttribute('max');
-    }
+    return this.children.length - 1;
   }
 
   get debug() {

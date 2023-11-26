@@ -3,7 +3,7 @@
 
   var html = "<slot id=\"bios\"><!-- used for user input --></slot>\n<div id=\"display\"></div>\n<slot name=\"_display\"></slot>\n";
 
-  var css_248z = ":host {\n  box-sizing: border-box;\n  display: grid;\n  grid-template-columns: 1fr;\n  overflow: hidden;\n}\n\n#display {\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  grid-area: 1 / 1 / -1 / -1;\n  align-content: start;\n  align-items: center;\n  column-gap: var(--space, .55ch);\n  row-gap: var(--leading, .14ex);\n  transition: var(--duration, 0) ease;\n}\n\n#display span {\n  box-sizing: border-box;\n  background: var(--background);\n  height: var(--height, 3ex);\n  border-radius: var(--radius);\n  transition: var(--duration, 0) ease;\n}\n\n:host([debug]) #display {\n  filter: opacity(20%);\n}\n\n::slotted(*) {\n  grid-area: 1 / 1 / -1 / -1;\n  opacity: 0;\n}\n";
+  var css_248z = ":host {\n  box-sizing: border-box;\n  display: grid;\n  grid-template-columns: 1fr;\n  overflow: hidden;\n}\n\n#display {\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  grid-area: 1 / 1 / -1 / -1;\n  align-content: start;\n  align-items: center;\n  column-gap: var(--vari-bio-space, .55ch);\n  row-gap: var(--vari-bio-leading, .14ex);\n  transition: var(--vari-bio-duration, 0) ease;\n}\n\n#display span {\n  box-sizing: border-box;\n  background: var(--vari-bio-background);\n  height: var(--vari-bio-height, 3ex);\n  border-radius: var(--vari-bio-radius);\n  transition: var(--vari-bio-duration, 0) ease;\n}\n\n:host([debug]) #display {\n  filter: opacity(20%);\n}\n\n::slotted(*) {\n  grid-area: 1 / 1 / -1 / -1;\n  opacity: 0;\n}\n";
 
   function Splitting () {
     var u = document,
@@ -237,7 +237,6 @@
       this._$bios.addEventListener('slotchange', () => {
         this.ready = false;
         const $elements = this._$bios.assignedElements();
-        this.max = $elements.length - 1;
         const finalWidths = $elements.sort((a, b) => a.textContent.length - b.textContent.length).map(this._measure, this);
         this._widths = this._configure(finalWidths);
         this._redactions = this._markings(this._widths);
@@ -345,14 +344,14 @@
       if (!Array.isArray(this._redactions)) return;
       this._reset();
 
-      this.style.setProperty('--progress', progress.toFixed(3));
+      this.style.setProperty('--vari-bio-progress', progress.toFixed(3));
 
       this._redactions.forEach(($span, i) => {
         const { start = 0, end = 0 } = this._widths[i][index];
-        $span.style.setProperty('width', `calc(${start}px - ((${start}px - ${end}px) * var(--progress, 0)))`);
+        $span.style.setProperty('width', `calc(${start}px - ((${start}px - ${end}px) * var(--vari-bio-progress, 0)))`);
         $span.style.removeProperty('margin-inline-start');
-        if (!start) $span.style.setProperty('margin-inline-start', `calc((var(--space, .55ch) * -1) * (1 - var(--progress, 0)))`);
-        if (!end) $span.style.setProperty('margin-inline-start', `calc((var(--space, .55ch) * -1))`);
+        if (!start) $span.style.setProperty('margin-inline-start', `calc((var(--vari-bio-space, .55ch) * -1) * (1 - var(--vari-bio-progress, 0)))`);
+        if (!end) $span.style.setProperty('margin-inline-start', `calc((var(--vari-bio-space, .55ch) * -1))`);
       });
     }
 
@@ -369,15 +368,7 @@
     }
 
     get max() {
-      return parseFloat(this.getAttribute('max'), 10) || 0;
-    }
-
-    set max(newVal) {
-      if (!isNaN(newVal)) {
-        this.setAttribute('max', newVal);
-      } else {
-        this.removeAttribute('max');
-      }
+      return this.children.length - 1;
     }
 
     get debug() {

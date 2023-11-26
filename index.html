@@ -21,23 +21,27 @@
       p { max-width: 900px; margin: 1em auto}
 
       h1 { text-align: center; }
+
       section { 
         max-width: 900px;
         margin: 1rem auto;
-        border-top: 1px solid #ddd;
         display: flex;
         flex-direction: column;
         align-items: center;
       }
 
       vari-bio {
-        --background: rgba(0, 0, 0, 1);
-        --radius: 3px;
-        --duration: .7s;
+        --vari-bio-background: rgba(0, 0, 0, 1);
+        --vari-bio-radius: 3px;
+        --vari-bio-duration: .7s;
       }
 
       vari-bio p {
         margin: 0;
+      }
+
+      vari-bio > :not(:first-child) {
+        opacity: 0;
       }
     </style>
     <script src="dist/index.iife.js" defer></script>
@@ -46,9 +50,8 @@
     <h1>
       <a href="https://github.com/ddamato/vari-bio">&lt;vari-bio/&gt;</a>
     </h1>
-    <p>Create several bios and transition between each</p>
+    <p>Create several bios and transition between each. Adjust the slider below to see the effect.</p>
     <section>
-      <h2>Use the box below</h2>
       <vari-bio id="vari-bio" value="1">
         <p>Deep v cliche adaptogen butcher, plaid la croix ennui williamsburg prism viral.</p>
         <p>Selfies ethical hell of <a href="#">asymmetrical</a> jawn pok pok copper mug humblebrag health goth normcore microdosing. Austin la croix grailed raclette farm to table man bun authentic coloring book church key.</p>
