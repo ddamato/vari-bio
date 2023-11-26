@@ -2,6 +2,7 @@
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
+  overflow: hidden;
 }
 
 #display {
@@ -10,16 +11,22 @@
   flex-wrap: wrap;
   grid-area: 1 / 1 / -1 / -1;
   align-content: start;
+  align-items: center;
   column-gap: var(--space, .55ch);
   row-gap: var(--leading, .14ex);
-  transition: .218s ease;
+  transition: var(--duration, 0) ease;
 }
 
 #display span {
   box-sizing: border-box;
   background: var(--background);
   height: var(--height, 3ex);
-  transition: .218s ease;
+  border-radius: var(--radius);
+  transition: var(--duration, 0) ease;
+}
+
+:host([debug]) #display {
+  filter: opacity(20%);
 }
 
 ::slotted(*) {

@@ -11,11 +11,6 @@ class VariBio extends HTMLElement {
     this._$bios = this.shadowRoot.getElementById('bios');
     this._$display = this.shadowRoot.getElementById('display');
 
-    this._transition = () => {
-      this._display();
-      this._$display.removeEventListener('transitionend', this._transition);
-    }
-
     this._$bios.addEventListener('slotchange', () => {
       this.ready = false;
       const $elements = this._$bios.assignedElements();
@@ -29,6 +24,7 @@ class VariBio extends HTMLElement {
     });
   }
 
+
   _onReady() {
     this.ready = true;
     const detail = {
@@ -40,10 +36,13 @@ class VariBio extends HTMLElement {
   }
 
   _markings(startingWidths) {
-    return startingWidths.map(() => {
+    const markings = startingWidths.map((arr) => {
       const $span = document.createElement('span');
+      $span.dataset.trigger = arr.filter(({ start }) => Boolean(start)).length === arr.length;
       return this._$display.appendChild($span);
     });
+    this._$display.querySelector('[data-trigger="true"]').addEventListener('transitionend', () => this._display());
+    return markings;
   }
 
   _configure(paragraphs) {
@@ -75,7 +74,7 @@ class VariBio extends HTMLElement {
     const $clone = $elem.cloneNode(true);
     const [{ el, words }] = splitting({ target: $clone, by: 'words' });
     el.setAttribute('slot', '_display');
-    this.appendChild(el); // make append element option
+    this.appendChild(el); // make append element option ??
     el.style.position = 'absolute';
     const nodes = words.map(($word) => {
       const { width } = $word.getBoundingClientRect();
@@ -95,7 +94,7 @@ class VariBio extends HTMLElement {
     }
   }
 
-  _parseValue(value) {
+  _parse(value) {
     const index = Math.floor(value);
     return {
       index,
@@ -104,8 +103,7 @@ class VariBio extends HTMLElement {
   }
 
   _display() {
-    // fire on transition end
-    const { index, progress } = this._parseValue(this.value);
+    const { index, progress } = this._parse(this.value);
     this.querySelectorAll('[data-index]').forEach(($elem) => {
       if (!progress & $elem.dataset.index == index) $elem.style.opacity = 1;
     });
@@ -120,10 +118,9 @@ class VariBio extends HTMLElement {
   }
 
   _progress() {
-    const { index, progress } = this._parseValue(this.value);
+    const { index, progress } = this._parse(this.value);
     if (!Array.isArray(this._redactions)) return;
     this._reset();
-    this._$display.addEventListener('transitionend', this._transition);
 
     this.style.setProperty('--progress', progress.toFixed(3));
 
