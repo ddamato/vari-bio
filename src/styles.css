@@ -1,0 +1,28 @@
+:host {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+#display {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: 1 / 1 / -1 / -1;
+  align-content: start;
+  column-gap: var(--space, .55ch);
+  row-gap: var(--leading, .14ex);
+  transition: .218s ease;
+}
+
+#display span {
+  box-sizing: border-box;
+  background: var(--background);
+  height: var(--height, 3ex);
+  transition: .218s ease;
+}
+
+::slotted(*) {
+  grid-area: 1 / 1 / -1 / -1;
+  opacity: 0;
+}

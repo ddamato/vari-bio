@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>&lt;vari-bio&gt; example page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+    <style>
+      :root { 
+        
+      }
+
+      body { 
+        font-family: Prompt, sans-serif; 
+        font-size: 1.5rem; 
+        color: black;
+      }
+
+      a { color: inherit !important; }
+
+      p { max-width: 900px; margin: 1em auto}
+
+      h1 { text-align: center; }
+      section { 
+        max-width: 900px;
+        margin: 1rem auto;
+        border-top: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      vari-bio {
+        --background: rgba(0, 0, 0, 1);
+      }
+
+      vari-bio p {
+        margin: 0;
+      }
+    </style>
+    <script src="dist/index.iife.js" defer></script>
+  </head>
+  <body>
+    <h1>
+      <a href="https://github.com/ddamato/vari-bio">&lt;vari-bio/&gt;</a>
+    </h1>
+    <p>Create several bios and transition between each</p>
+    <section>
+      <h2>Use the box below</h2>
+      <vari-bio id="vari-bio" value="1">
+        <p>Deep v cliche adaptogen butcher, plaid la croix ennui williamsburg prism viral.</p>
+        <p>Selfies ethical hell of <a href="#">asymmetrical</a> jawn pok pok copper mug humblebrag health goth normcore microdosing. Austin la croix grailed raclette farm to table man bun authentic coloring book church key.</p>
+        <p>Craft beer vibecession hella mumblecore, fixie meggings butcher solarpunk bicycle rights tilde sus. Fingerstache 3 wolf moon authentic, <a href="#">post ironic marxism</a> before they sold out iPhone activated charcoal wolf kickstarter plaid.</p>
+        <p>Mustache ramps salvia truffaut wolf cornhole asymmetrical occupy venmo.</p>
+      </vari-bio>
+      <input type="range" step="any" id="slider"/>
+    </section>
+    <script type="text/javascript">
+      const $slider = document.getElementById("slider");
+      const $bio = document.getElementById("vari-bio");
+      $bio.addEventListener('ready', ({ detail }) => {
+        Object.assign($slider, detail);
+        $slider.addEventListener('input', () => $bio.value = $slider.value);
+        $slider.addEventListener('change', () => {
+          $bio.value = $slider.value = Math.min(Math.round($slider.value), $slider.max);
+        });
+      });
+    </script>
+  </body>
+</html>
