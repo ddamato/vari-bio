@@ -31,13 +31,20 @@
       }
 
       vari-bio {
-        --vari-bio-background: rgba(0, 0, 0, 1);
+        --vari-bio-background: fixed linear-gradient(90deg, #08AEEA 0%, #2AF598 100%);
         --vari-bio-radius: 3px;
         --vari-bio-duration: .7s;
+        background: var(--vari-bio-background);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       vari-bio p {
         margin: 0;
+      }
+
+      input[type="range"] {
+        accent-color: #08AEEA;
       }
 
       vari-bio > :not(:first-child) {
