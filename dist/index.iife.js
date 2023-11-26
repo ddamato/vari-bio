@@ -227,7 +227,7 @@
 
   const splitting = Splitting();
 
-  class VariBio extends HTMLElement {
+  class VariBio extends window.HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: 'open' }).innerHTML = `<style type="text/css">${css_248z}</style>${html}`;
