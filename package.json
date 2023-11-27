@@ -1,6 +1,6 @@
 {
   "name": "vari-bio",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create several bios and transition between each",
   "main": "src/index.js",
   "browser": "dist/index.iife.js",
