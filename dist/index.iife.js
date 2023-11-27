@@ -234,16 +234,21 @@
       this._$bios = this.shadowRoot.getElementById('bios');
       this._$display = this.shadowRoot.getElementById('display');
 
-      this._$bios.addEventListener('slotchange', () => {
-        this.ready = false;
-        const $elements = this._$bios.assignedElements();
-        const finalWidths = $elements.sort((a, b) => a.textContent.length - b.textContent.length).map(this._measure, this);
-        this._widths = this._configure(finalWidths);
-        this._redactions = this._markings(this._widths);
-        this._progress();
-        this._display();
-        this._onReady();
-      });
+      this._$bios.addEventListener('slotchange', () => this._init('slotchange'));
+      document.fonts.ready.then(() => this._init('fontsready'));
+    }
+
+    _init(type) {
+      if (this.debug) console.log(type);
+      this.ready = false;
+      const $elements = this._$bios.assignedElements();
+      const finalWidths = $elements.map(this._measure, this);
+      finalWidths.sort((a, b) => a.length - b.length).forEach(([{ $elem }], index) => $elem.dataset.index = index);
+      this._widths = this._configure(finalWidths);
+      this._redactions = this._markings(this._widths);
+      this._progress();
+      this._display();
+      this._onReady();
     }
 
 
@@ -258,6 +263,7 @@
     }
 
     _markings(startingWidths) {
+      this._$display.innerHTML = '';
       const markings = startingWidths.map((arr) => {
         const $span = document.createElement('span');
         $span.dataset.trigger = arr.filter(({ start }) => Boolean(start)).length === arr.length;
@@ -291,8 +297,7 @@
       }, null);
     }
 
-    _measure($elem, index) {
-      $elem.dataset.index = index;
+    _measure($elem) {
       const $clone = $elem.cloneNode(true);
       const [{ el, words }] = splitting({ target: $clone, by: 'words' });
       el.setAttribute('slot', '_display');
@@ -300,7 +305,7 @@
       el.style.position = 'absolute';
       const nodes = words.map(($word) => {
         const { width } = $word.getBoundingClientRect();
-        return { characters: $word.textContent.length, width }
+        return { characters: $word.textContent.length, width, $elem }
       });
       el.remove();
       return nodes;
