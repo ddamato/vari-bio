@@ -35,6 +35,7 @@ The content within the component should be several elements of content. A few po
 
 - If you are using `<p/>` elements (or any elements that include margin), it is recommended to remove that margin.
 - If your content includes hyphens (`-`), it is recommended to replace with a "[Non-breaking hyphen](https://en.wikipedia.org/wiki/Wikipedia:Non-breaking_hyphen)" (`‑`) so the width calculations do not attempt to break into separate lines.
+- It is recommended to not break on punctuation, for example `<a href="#">my link</a>.`. Notice the `.` at the end which will create a very small, perhaps unnecessary redaction for the animation. Attempt to curate content to include punctuation.
 - In order to progressively enhance the component, consider setting the opacity to `0` for elements that should not be shown while the component loads. This could be all of the content or a single paragraph.
 
 ```css
@@ -98,7 +99,7 @@ The `--vari-bio-progress` style property will automatically be updated based on 
 
 Font styles are inherited from the components' ancestors. Changing the font attributes is as simple as changing them on the containing element or higher up.
 
-You may update the following properties to adjust the look of the redactions.
+You may update the following properties to adjust the look of the redactions. It is helpful to use `debug` mode to adjust the size of the redactions through these properties.
 
 | Property | Description |
 | -------- | ----------- |

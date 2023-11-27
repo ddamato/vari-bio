@@ -44,11 +44,19 @@ class VariBio extends window.HTMLElement {
     this._$display.innerHTML = '';
     const markings = startingWidths.map((arr) => {
       const $span = document.createElement('span');
-      $span.dataset.trigger = arr.filter(({ start }) => Boolean(start)).length === arr.length;
-      return this._$display.appendChild($span);
+      this._$display.appendChild($span);
+      const uniqueStarts = new Set(arr.map(({ start }) => start));
+      const diffStarts = [...uniqueStarts].reduce((acc, start, index) => Math.abs(index % 0 ? acc + start : acc - start), 0);
+      return {
+        cumulativeDiff: diffStarts,
+        uniqueWidths: uniqueStarts.size === arr.length
+      }
     });
-    this._$display.querySelector('[data-trigger="true"]').addEventListener('transitionend', () => this._display());
-    return markings;
+    const unique = markings.filter(({ uniqueWidths }) => Boolean(uniqueWidths));
+    const [optimalMarking] = unique.sort((a, b) => b.cumulativeDiff - a.cumulativeDiff) || unique;
+    const optimalIndex = markings.indexOf(optimalMarking);
+    this._$display.children[optimalIndex].addEventListener('transitionend', () => this._display());
+    return [...this._$display.children];
   }
 
   _configure(paragraphs) {
