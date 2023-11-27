@@ -15,6 +15,7 @@
   column-gap: var(--vari-bio-space, .55ch);
   row-gap: var(--vari-bio-leading, .14ex);
   transition: var(--vari-bio-duration, 0) ease;
+  pointer-events: none;
 }
 
 #display span {
