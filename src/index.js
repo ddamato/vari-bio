@@ -19,6 +19,7 @@ class VariBio extends window.HTMLElement {
     if (this.debug) console.log(type);
     this.ready = false;
     const $elements = this._$bios.assignedElements();
+    this.querySelectorAll('[slot="_display"]').forEach(($el) => $el.remove());
     const finalWidths = $elements.map(this._measure, this);
     finalWidths.sort((a, b) => a.length - b.length).forEach(([{ $elem }], index) => $elem.dataset.index = index);
     this._widths = this._configure(finalWidths);
@@ -75,16 +76,17 @@ class VariBio extends window.HTMLElement {
   }
 
   _measure($elem) {
+    const target = this;
     const $clone = $elem.cloneNode(true);
     const [{ el, words }] = splitting({ target: $clone, by: 'words' });
     el.setAttribute('slot', '_display');
-    this.appendChild(el); // make append element option ??
+    target.appendChild(el); // make append element option ??
     el.style.position = 'absolute';
     const nodes = words.map(($word) => {
       const { width } = $word.getBoundingClientRect();
       return { characters: $word.textContent.length, width, $elem }
     });
-    el.remove();
+    if (!this.debug) el.remove();
     return nodes;
   }
 
@@ -150,7 +152,7 @@ class VariBio extends window.HTMLElement {
   }
 
   get max() {
-    return this.children.length - 1;
+    return this._$bios.assignedElements().length - 1;
   }
 
   get debug() {
