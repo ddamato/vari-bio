@@ -33,4 +33,5 @@
 ::slotted(*) {
   grid-area: 1 / 1 / -1 / -1;
   opacity: 0;
+  pointer-events: none;
 }

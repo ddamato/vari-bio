@@ -118,8 +118,11 @@ class VariBio extends window.HTMLElement {
 
   _display() {
     const { index, progress } = this._parse(this.value);
-    this.querySelectorAll('[data-index]').forEach(($elem) => {
-      if (!progress & $elem.dataset.index == index) $elem.style.opacity = 1;
+    this.querySelectorAll('[data-index]:not(.words)').forEach(($elem) => {
+      if (!progress & $elem.dataset.index == index) {
+        $elem.style.opacity = 1;
+        $elem.style.pointerEvents = 'initial';
+      }
     });
     if (!this.debug) this._$display.style.opacity = Math.ceil(progress);
   }
@@ -127,6 +130,7 @@ class VariBio extends window.HTMLElement {
   _reset() {
     this.querySelectorAll('[data-index]').forEach(($elem) => {
       $elem.style.removeProperty('opacity');
+      $elem.style.removeProperty('pointer-events');
     });
     this._$display.style.opacity = 1;
   }
